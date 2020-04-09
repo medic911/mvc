@@ -1,6 +1,7 @@
 <?
 
 define('APP_START', microtime(true));
+define('BASE_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
 

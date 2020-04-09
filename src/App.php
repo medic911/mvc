@@ -4,11 +4,16 @@ namespace Medic911\MVC;
 use Medic911\MVC\Core\Contracts\RequestContract;
 use Medic911\MVC\Core\Contracts\ResponseContract;
 use Medic911\MVC\Core\Contracts\RouterContract;
+use Medic911\MVC\Core\Contracts\ViewContract;
 use Medic911\MVC\Core\Exceptions\InvalidResponseException;
 use Medic911\MVC\Core\Exceptions\NotFoundException;
 use Medic911\MVC\Core\Http\Response;
 use Medic911\MVC\Core\Traits\Singleton;
 
+/**
+ * Class App
+ * @package Medic911\MVC
+ */
 class App
 {
     use Singleton;
@@ -63,6 +68,10 @@ class App
             return $result;
         }
 
+        if ($result instanceof ViewContract) {
+            return new Response($result->render());
+        }
+
         if (is_string($result)) {
             return new Response($result);
         }
@@ -71,6 +80,6 @@ class App
             return Response::json($result);
         }
 
-        throw new InvalidResponseException();
+        throw new InvalidResponseException;
     }
 }

@@ -164,7 +164,7 @@ class Response implements ResponseContract
     {
         header("HTTP/1.1: $this->status", );
         header("Content-Type: $this->contentType; charset=UTF-8");
-        header('Content-Length: ' . mb_strlen($this->content));
+        header('Content-Length: ' . mb_strlen($this->body));
 
         foreach ($this->headers as $name => $value) {
             header("$name: $value");

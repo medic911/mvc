@@ -1,9 +1,12 @@
 <?php
 
 use Medic911\MVC\App;
+use Medic911\MVC\Core\Contracts\RequestContract;
 use Medic911\MVC\Core\Contracts\RouterContract;
+use Medic911\MVC\Core\Contracts\ViewContract;
 use Medic911\MVC\Core\Http\Request;
 use Medic911\MVC\Core\Router;
+use Medic911\MVC\Core\View;
 
 if (!function_exists('inProduction')) {
     /**
@@ -29,10 +32,22 @@ if (!function_exists('app')) {
 
 if (!function_exists('request')) {
     /**
-     * @return Request
+     * @return RequestContract
      */
-    function request(): Request
+    function request(): RequestContract
     {
         return Request::getInstance();
+    }
+}
+
+if (!function_exists('view')) {
+    /**
+     * @param string $templateName
+     * @param array $vars
+     * @return ViewContract
+     */
+    function view(string $templateName, array $vars = []): ViewContract
+    {
+        return new View($templateName, $vars);
     }
 }

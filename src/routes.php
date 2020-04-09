@@ -15,3 +15,9 @@ $router->addRoute('/json', function (\Medic911\MVC\App $app) {
         'json' => 'example',
     ];
 });
+
+$router->addRoute('/view', function (\Medic911\MVC\App $app) {
+    return view('index', [
+        'var' => '<script>alert(123);</script>',
+    ]);
+});
