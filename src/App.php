@@ -5,7 +5,7 @@ use Medic911\MVC\Core\Contracts\RequestContract;
 use Medic911\MVC\Core\Contracts\ResponseContract;
 use Medic911\MVC\Core\Contracts\RouterContract;
 use Medic911\MVC\Core\Contracts\ViewContract;
-use Medic911\MVC\Core\Exceptions\InvalidResponseException;
+use Medic911\MVC\Core\Exceptions\InvalidRouteResultException;
 use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Exceptions\NotFoundTemplateException;
 use Medic911\MVC\Core\Http\Response;
@@ -36,7 +36,7 @@ class App
             $response = $this->tryMakeResponse($callback($this));
         } catch (NotFoundRouteException $e) {
             $response = Response::e404();
-        } catch (InvalidResponseException | NotFoundTemplateException $e) {
+        } catch (InvalidRouteResultException | NotFoundTemplateException $e) {
             $response = Response::e500();
         }
 
@@ -62,12 +62,12 @@ class App
     /**
      * @param $result
      * @return ResponseContract
-     * @throws InvalidResponseException
+     * @throws InvalidRouteResultException
      * @throws NotFoundTemplateException
      */
     protected function tryMakeResponse($result): ResponseContract
     {
-        if ($result instanceof Response) {
+        if ($result instanceof ResponseContract) {
             return $result;
         }
 
@@ -83,6 +83,6 @@ class App
             return Response::json($result);
         }
 
-        throw new InvalidResponseException;
+        throw new InvalidRouteResultException;
     }
 }
