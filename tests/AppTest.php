@@ -4,7 +4,7 @@ namespace Tests;
 
 use Medic911\MVC\App;
 use Medic911\MVC\Core\Contracts\RouterContract;
-use Medic911\MVC\Core\Exceptions\NotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Http\Request;
 use Medic911\MVC\Core\Http\Response;
 use Medic911\MVC\Core\Router;
@@ -120,7 +120,7 @@ class AppTest extends TestCase
         $app = App::getInstance();
 
         $this->router->method('match')
-            ->willThrowException(new NotFoundException());
+            ->willThrowException(new NotFoundRouteException());
 
         $app->setRouter($this->router);
         $response = $app->handleRequest($this->request);

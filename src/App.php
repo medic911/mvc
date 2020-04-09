@@ -6,9 +6,11 @@ use Medic911\MVC\Core\Contracts\ResponseContract;
 use Medic911\MVC\Core\Contracts\RouterContract;
 use Medic911\MVC\Core\Contracts\ViewContract;
 use Medic911\MVC\Core\Exceptions\InvalidResponseException;
-use Medic911\MVC\Core\Exceptions\NotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
+use Medic911\MVC\Core\Exceptions\NotFoundTemplateException;
 use Medic911\MVC\Core\Http\Response;
 use Medic911\MVC\Core\Traits\Singleton;
+use function PHPUnit\Framework\assertDirectoryDoesNotExist;
 
 /**
  * Class App
@@ -32,9 +34,9 @@ class App
         try {
             $callback = $this->router->match($request->getPath());
             $response = $this->tryMakeResponse($callback($this));
-        } catch (NotFoundException $e) {
+        } catch (NotFoundRouteException $e) {
             $response = Response::e404();
-        } catch (InvalidResponseException $e) {
+        } catch (InvalidResponseException | NotFoundTemplateException $e) {
             $response = Response::e500();
         }
 
@@ -59,8 +61,9 @@ class App
 
     /**
      * @param $result
-     * @return Response
+     * @return ResponseContract
      * @throws InvalidResponseException
+     * @throws NotFoundTemplateException
      */
     protected function tryMakeResponse($result): ResponseContract
     {

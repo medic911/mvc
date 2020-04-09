@@ -7,7 +7,7 @@ use Exception;
  * Class NotFoundException
  * @package Medic911\MVC\Core\Exceptions
  */
-class NotFoundException extends Exception
+class NotFoundRouteException extends Exception
 {
     //
 }

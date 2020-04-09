@@ -4,7 +4,7 @@ namespace Medic911\MVC\Core;
 
 use Illuminate\Support\Str;
 use Medic911\MVC\Core\Contracts\ViewContract;
-use Medic911\MVC\Core\Exceptions\TemplateNotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundTemplateException;
 
 /**
  * Class View
@@ -38,12 +38,12 @@ class View implements ViewContract
 
     /**
      * @return string
-     * @throws TemplateNotFoundException
+     * @throws NotFoundTemplateException
      */
     public function render(): string
     {
         if (!file_exists($this->templatePath)) {
-            throw new TemplateNotFoundException;
+            throw new NotFoundTemplateException;
         }
 
         extract($this->vars);

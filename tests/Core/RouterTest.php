@@ -3,7 +3,7 @@
 namespace Tests\Core;
 
 use Medic911\MVC\Core\Contracts\RouterContract;
-use Medic911\MVC\Core\Exceptions\NotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Router;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +28,7 @@ class RouterTest extends TestCase
 
     /**
      * @test
-     * @throws NotFoundException
+     * @throws NotFoundRouteException
      */
     public function testMatchRoute(): void
     {
@@ -41,7 +41,7 @@ class RouterTest extends TestCase
      */
     public function testNotMatchRoute(): void
     {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(NotFoundRouteException::class);
 
         $this->router->match('/bad-path');
     }

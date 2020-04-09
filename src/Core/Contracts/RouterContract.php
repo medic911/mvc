@@ -3,7 +3,7 @@
 namespace Medic911\MVC\Core\Contracts;
 
 use Closure;
-use Medic911\MVC\Core\Exceptions\NotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 
 /**
  * Interface RouterContract
@@ -20,7 +20,7 @@ interface RouterContract
     /**
      * @param string $path
      * @return Closure
-     * @throws NotFoundException
+     * @throws NotFoundRouteException
      */
     public function match(string $path): Closure;
 }

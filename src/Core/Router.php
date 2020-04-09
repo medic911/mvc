@@ -2,7 +2,7 @@
 namespace Medic911\MVC\Core;
 
 use Medic911\MVC\Core\Contracts\RouterContract;
-use Medic911\MVC\Core\Exceptions\NotFoundException;
+use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Traits\Singleton;
 use Closure;
 
@@ -25,12 +25,12 @@ class Router implements RouterContract
     /**
      * @param string $path
      * @return Closure
-     * @throws NotFoundException
+     * @throws NotFoundRouteException
      */
     public function match(string $path): Closure
     {
         if (!isset($this->routes[$path])) {
-            throw new NotFoundException;
+            throw new NotFoundRouteException;
         }
 
         return $this->routes[$path];

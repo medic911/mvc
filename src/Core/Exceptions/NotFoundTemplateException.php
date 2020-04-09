@@ -8,7 +8,7 @@ use Exception;
  * Class TemplateNotFoundException
  * @package Medic911\MVC\Core\Exceptions
  */
-class TemplateNotFoundException extends Exception
+class NotFoundTemplateException extends Exception
 {
 
 }
