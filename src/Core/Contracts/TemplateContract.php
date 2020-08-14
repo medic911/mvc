@@ -2,17 +2,19 @@
 
 namespace Medic911\MVC\Core\Contracts;
 
+use Medic911\MVC\Core\Exceptions\CompileTemplateException;
 use Medic911\MVC\Core\Exceptions\NotFoundTemplateException;
 
 /**
- * Interface ViewContract
+ * Interface TemplateContract
  * @package Medic911\MVC\Core\Contracts
  */
-interface ViewContract
+interface TemplateContract
 {
     /**
      * @return string
      * @throws NotFoundTemplateException
+     * @throws CompileTemplateException
      */
     public function render(): string;
 }

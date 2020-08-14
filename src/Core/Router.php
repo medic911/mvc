@@ -30,7 +30,7 @@ class Router implements RouterContract
     public function match(string $path): Closure
     {
         if (!isset($this->routes[$path])) {
-            throw new NotFoundRouteException;
+            throw new NotFoundRouteException("Route '{$path}' do not exists");
         }
 
         return $this->routes[$path];

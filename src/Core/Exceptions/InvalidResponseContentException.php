@@ -8,7 +8,7 @@ use Exception;
  * Class InvalidResponseException
  * @package Medic911\MVC\Core\Exceptions
  */
-class InvalidRouteResultException extends Exception
+class InvalidResponseContentException extends Exception
 {
     //
 }

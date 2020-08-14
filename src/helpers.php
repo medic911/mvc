@@ -2,11 +2,9 @@
 
 use Medic911\MVC\App;
 use Medic911\MVC\Core\Contracts\RequestContract;
-use Medic911\MVC\Core\Contracts\RouterContract;
-use Medic911\MVC\Core\Contracts\ViewContract;
+use Medic911\MVC\Core\Contracts\TemplateContract;
 use Medic911\MVC\Core\Http\Request;
-use Medic911\MVC\Core\Router;
-use Medic911\MVC\Core\View;
+use Medic911\MVC\Core\Templates\TwigTemplate;
 
 if (!function_exists('inProduction')) {
     /**
@@ -44,10 +42,10 @@ if (!function_exists('view')) {
     /**
      * @param string $templateName
      * @param array $vars
-     * @return ViewContract
+     * @return TemplateContract
      */
-    function view(string $templateName, array $vars = []): ViewContract
+    function view(string $templateName, array $vars = []): TemplateContract
     {
-        return new View($templateName, $vars);
+        return new TwigTemplate($templateName, $vars);
     }
 }

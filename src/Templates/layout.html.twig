@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>{% block pageTitle %}Title{% endblock %}</title>
 </head>
 <body>
 <div class="container">
-    Template view with var '<?=$var?>'!
+    {% block content %}{% endblock %}
 </div>
 </body>
 </html>

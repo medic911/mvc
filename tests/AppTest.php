@@ -4,6 +4,7 @@ namespace Tests;
 
 use Medic911\MVC\App;
 use Medic911\MVC\Core\Contracts\RouterContract;
+use Medic911\MVC\Core\Exceptions\InvalidResponseContentException;
 use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Http\Request;
 use Medic911\MVC\Core\Http\Response;
@@ -122,10 +123,10 @@ class AppTest extends TestCase
         $this->router->method('match')
             ->willThrowException(new NotFoundRouteException());
 
-        $app->setRouter($this->router);
-        $response = $app->handleRequest($this->request);
+        $this->expectException(NotFoundRouteException::class);
 
-        $this->assertEquals(404, $response->getStatus());
+        $app->setRouter($this->router);
+        $app->handleRequest($this->request);
     }
 
     /**
@@ -147,10 +148,10 @@ class AppTest extends TestCase
         $this->router->method('match')
             ->willReturn(function () { return null; });
 
+        $this->expectException(InvalidResponseContentException::class);
+
         $app = App::getInstance();
         $app->setRouter($this->router);
-        $response = $app->handleRequest($this->request);
-
-        $this->assertEquals(500, $response->getStatus());
+        $app->handleRequest($this->request);
     }
 }

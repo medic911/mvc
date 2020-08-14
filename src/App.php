@@ -4,13 +4,14 @@ namespace Medic911\MVC;
 use Medic911\MVC\Core\Contracts\RequestContract;
 use Medic911\MVC\Core\Contracts\ResponseContract;
 use Medic911\MVC\Core\Contracts\RouterContract;
-use Medic911\MVC\Core\Contracts\ViewContract;
-use Medic911\MVC\Core\Exceptions\InvalidRouteResultException;
+use Medic911\MVC\Core\Contracts\TemplateContract;
+use Medic911\MVC\Core\Exceptions\CompileTemplateException;
+use Medic911\MVC\Core\Exceptions\InvalidResponseContentException;
 use Medic911\MVC\Core\Exceptions\NotFoundRouteException;
 use Medic911\MVC\Core\Exceptions\NotFoundTemplateException;
 use Medic911\MVC\Core\Http\Response;
 use Medic911\MVC\Core\Traits\Singleton;
-use function PHPUnit\Framework\assertDirectoryDoesNotExist;
+use Throwable;
 
 /**
  * Class App
@@ -28,6 +29,7 @@ class App
     /**
      * @param RequestContract $request
      * @return ResponseContract
+     * @throws Throwable
      */
     public function handleRequest(RequestContract $request): ResponseContract
     {
@@ -35,8 +37,10 @@ class App
             $callback = $this->router->match($request->getPath());
             $response = $this->tryMakeResponse($callback($this));
         } catch (NotFoundRouteException $e) {
+            $this->handleException($e);
             $response = Response::e404();
-        } catch (InvalidRouteResultException | NotFoundTemplateException $e) {
+        } catch (Throwable $e) {
+            $this->handleException($e);
             $response = Response::e500();
         }
 
@@ -62,8 +66,10 @@ class App
     /**
      * @param $result
      * @return ResponseContract
-     * @throws InvalidRouteResultException
+     * @throws Core\Exceptions\CompileTemplateException
+     * @throws InvalidResponseContentException
      * @throws NotFoundTemplateException
+     * @throws CompileTemplateException
      */
     protected function tryMakeResponse($result): ResponseContract
     {
@@ -71,7 +77,7 @@ class App
             return $result;
         }
 
-        if ($result instanceof ViewContract) {
+        if ($result instanceof TemplateContract) {
             return new Response($result->render());
         }
 
@@ -83,6 +89,17 @@ class App
             return Response::json($result);
         }
 
-        throw new InvalidRouteResultException;
+        throw new InvalidResponseContentException;
+    }
+
+    /**
+     * @param Throwable $e
+     * @throws Throwable
+     */
+    protected function handleException(Throwable $e): void
+    {
+        if (!inProduction()) {
+            throw $e;
+        }
     }
 }
